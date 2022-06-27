@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { TaskComponent } from './task.component';
 import { MatListModule } from '@angular/material/list'
 import { MatCardModule } from '@angular/material/card'
+import { MatIconModule } from '@angular/material/icon'
 
 @NgModule({
   imports: [
     CommonModule,
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   declarations: [TaskComponent],
   exports: [TaskComponent]

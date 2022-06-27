@@ -8,15 +8,15 @@
 
 <div class="list-container">
     <div>
-        <app-task [taskType]="taskTypeVal.TODO">
+        <app-task [taskType]="taskTypeVal.TODO" [tasks]="todoTask">
         </app-task>
     </div>
     <div>
-        <app-task [taskType]="taskTypeVal.INPROGRESS">
+        <app-task [taskType]="taskTypeVal.INPROGRESS" [tasks]="inProgressTask">
         </app-task>
     </div>
     <div>
-        <app-task [taskType]="taskTypeVal.COMPLETED">
+        <app-task [taskType]="taskTypeVal.COMPLETED" [tasks]="completedTask">
         </app-task>
     </div>
 

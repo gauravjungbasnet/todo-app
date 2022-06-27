@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TaskTypeEnum } from '../shared/enums/tasktype.enum';
+import { TaskStatusEnum } from '../shared/enums/tasktype.enum';
+import { TaskModel } from '../shared/models/task.model';
 
 @Component({
   selector: 'app-task',
@@ -8,7 +9,8 @@ import { TaskTypeEnum } from '../shared/enums/tasktype.enum';
 })
 export class TaskComponent implements OnInit {
 
-  @Input() taskType: TaskTypeEnum | undefined;
+  @Input() taskType: TaskStatusEnum | undefined;
+  @Input() tasks: TaskModel[] = [];
 
   constructor() { }
 
