@@ -1,0 +1,23 @@
+<app-horizontal-navbar></app-horizontal-navbar>
+
+<div class="home-wrapper">
+    <div class="add-task">
+        <button mat-raised-button color="primary">Add Task</button>
+    </div>
+</div>
+
+<div class="list-container">
+    <div>
+        <app-task [taskType]="taskTypeVal.TODO">
+        </app-task>
+    </div>
+    <div>
+        <app-task [taskType]="taskTypeVal.INPROGRESS">
+        </app-task>
+    </div>
+    <div>
+        <app-task [taskType]="taskTypeVal.COMPLETED">
+        </app-task>
+    </div>
+
+</div>

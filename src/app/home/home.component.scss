@@ -1,0 +1,14 @@
+.home-wrapper{
+    margin: 20px;
+}
+
+.add-task{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.list-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

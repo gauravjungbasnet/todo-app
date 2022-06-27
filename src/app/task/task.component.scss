@@ -1,0 +1,32 @@
+
+.picker-list {
+    border: #666666 solid 1px;
+    overflow: auto;
+    padding: 0 5px 0 5px;
+    min-width: 250px;
+    min-height: 150px;
+    height: fit-content;
+  }
+
+  .list-card {
+    width: 100%;
+    padding-left: 0px;
+    transition: 0.2s all ease;
+    &:before {
+      top:0px;
+      content: "";
+      height: 100%;
+      width: 15px;
+      position: absolute;
+      z-index: 1;
+      background: red;
+    }
+
+  .mat-card-content {
+    padding-left: 40px;
+    font-size: 13px;
+    .mat-icon {
+      font-size: 12px;
+    }
+  }
+}
