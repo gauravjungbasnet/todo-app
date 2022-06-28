@@ -1,7 +1,15 @@
-<div class="picker-list">
+<div
+cdkDropList
+#todoList="cdkDropList"
+[cdkDropListData]="tasks"
+[cdkDropListConnectedTo]="connectedParent"
+cdkDropListSortingDisabled
+(cdkDropListDropped)="onDrop($event)"
+class="picker-list"
+  >
   <mat-list>
-    <h3 mat-subheader>{{taskType}}</h3>
-    <mat-list-item *ngFor="let task of tasks">
+    <h3 mat-subheader>{{'To Do'}}</h3>
+    <mat-list-item cdkDrag *ngFor="let task of tasks">
       <mat-card class="list-card">
         <mat-card-header>
           <mat-card-title>
@@ -30,7 +38,7 @@
 <ng-template #nodataTemplate>
   <div class="loading-shade">
     <div class="no-records-label">
-      <mat-icon>info</mat-icon>&nbsp;&nbsp;{{ taskType + ' task not available' }}
+      <mat-icon>info</mat-icon>&nbsp;&nbsp;{{ 'To Do task not available' }}
     </div>
   </div>
 </ng-template>

@@ -2,22 +2,185 @@
 
 <div class="home-wrapper">
     <div class="add-task">
-        <button mat-raised-button color="primary">Add Task</button>
+        <button mat-raised-button color="primary" (click)="openDialog()">Add Task</button>
     </div>
 </div>
 
 <div class="list-container">
-    <div>
-        <app-task [taskType]="taskTypeVal.TODO" [tasks]="todoTask">
-        </app-task>
-    </div>
-    <div>
-        <app-task [taskType]="taskTypeVal.INPROGRESS" [tasks]="inProgressTask">
-        </app-task>
-    </div>
-    <div>
-        <app-task [taskType]="taskTypeVal.COMPLETED" [tasks]="completedTask">
-        </app-task>
-    </div>
+    <ng-container *ngTemplateOutlet="todoTemplate">
+        <!-- <app-todo-task [tasks]="todoTask"></app-todo-task> -->
+
+    </ng-container>
+    <ng-container *ngTemplateOutlet="inProgressTemplate">
+        <!-- <app-inprogress-task [tasks]="inProgressTask"></app-inprogress-task> -->
+
+    </ng-container>
+    <ng-container *ngTemplateOutlet="completedTemplate">
+        <!-- <app-completed-task [tasks]="completedTask"></app-completed-task> -->
+
+    </ng-container>
 
 </div>
+
+
+<ng-template #todoTemplate>
+    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todoTask"
+        [cdkDropListConnectedTo]="[inProgressListRef, completedListRef]"
+        (cdkDropListDropped)="onDrop($event, taskTypeVal.TODO)" class="picker-list">
+        <mat-list>
+            <h3 mat-subheader>{{'To Do'}}</h3>
+            <mat-list-item cdkDrag *ngFor="let task of todoTask">
+                <mat-card class="list-card" [class.first-range]="task.storyPoint <= 3"
+                    [class.second-range]="task.storyPoint > 3 && task.storyPoint <= 7"
+                    [class.third-range]="task.storyPoint > 7">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <div class="card-header">
+                                <div>
+                                    {{(task.title.length > 50)? (task.title | slice:0:50)+'..':(task.title)}}
+                                </div>
+                                <div class="story-point-span">
+                                    {{task.storyPoint}}
+                                </div>
+                            </div>
+                        </mat-card-title>
+
+                    </mat-card-header>
+                    <mat-card-content>
+                        {{((task?.description?.length || 0) > 100)? (task.description |
+                        slice:0:100)+'..':(task.description)}}
+                    </mat-card-content>
+                </mat-card>
+            </mat-list-item>
+            <mat-list-item *ngIf="!todoTask?.length" class="no data found">
+                <ng-container *ngTemplateOutlet="nodataTemplate; context:{localSk:{status: 'To Do'}}"></ng-container>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</ng-template>
+<ng-template #inProgressTemplate>
+    <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgressTask"
+        [cdkDropListConnectedTo]="[todoListRef, completedListRef]"
+        (cdkDropListDropped)="onDrop($event, taskTypeVal.INPROGRESS)" class="picker-list">
+        <mat-list>
+            <h3 mat-subheader>{{'In Progress'}}</h3>
+            <mat-list-item cdkDrag *ngFor="let task of inProgressTask">
+                <mat-card class="list-card" [class.first-range]="task.storyPoint <= 3"
+                    [class.second-range]="task.storyPoint > 3 && task.storyPoint <= 7"
+                    [class.third-range]="task.storyPoint > 7">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <div class="card-header">
+                                <div>
+                                    {{(task.title.length > 50)? (task.title | slice:0:50)+'..':(task.title)}}
+                                </div>
+                                <div class="story-point-span">
+                                    {{task.storyPoint}}
+                                </div>
+                            </div>
+                        </mat-card-title>
+
+                    </mat-card-header>
+                    <mat-card-content>
+                        {{((task?.description?.length || 0) > 100)? (task.description |
+                        slice:0:100)+'..':(task.description)}}
+                    </mat-card-content>
+                </mat-card>
+            </mat-list-item>
+            <mat-list-item *ngIf="!inProgressTask?.length" class="no data found">
+                <ng-container *ngTemplateOutlet="nodataTemplate;  context:{localSk:{status: 'In Progress'}}">
+                </ng-container>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</ng-template>
+<ng-template #completedTemplate>
+    <div cdkDropList #completedList="cdkDropList" [cdkDropListData]="completedTask"
+        [cdkDropListConnectedTo]="[todoListRef, inProgressListRef]"
+        (cdkDropListDropped)="onDrop($event, taskTypeVal.COMPLETED)" class="picker-list">
+        <mat-list>
+            <h3 mat-subheader>{{'Completed'}}</h3>
+            <mat-list-item cdkDrag *ngFor="let task of completedTask">
+                <mat-card class="list-card" [class.first-range]="task.storyPoint <= 3"
+                    [class.second-range]="task.storyPoint > 3 && task.storyPoint <= 7"
+                    [class.third-range]="task.storyPoint > 7">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <div class="card-header">
+                                <div>
+                                    {{(task.title.length > 50)? (task.title | slice:0:50)+'..':(task.title)}}
+                                </div>
+                                <div class="story-point-span">
+                                    {{task.storyPoint}}
+                                </div>
+                            </div>
+                        </mat-card-title>
+
+                    </mat-card-header>
+                    <mat-card-content>
+                        {{((task?.description?.length || 0) > 100)? (task.description |
+                        slice:0:100)+'..':(task.description)}}
+                    </mat-card-content>
+                </mat-card>
+            </mat-list-item>
+            <mat-list-item *ngIf="!completedTask?.length" class="no data found">
+                <ng-container *ngTemplateOutlet="nodataTemplate;  context:{localSk:{status: 'Completed'}}">
+                </ng-container>
+            </mat-list-item>
+        </mat-list>
+    </div>
+</ng-template>
+
+<ng-template #nodataTemplate let-ctx="localSk">
+    <div class="loading-shade">
+        <div class="no-records-label">
+            <mat-icon>info</mat-icon>&nbsp;&nbsp;{{ ctx.status + ' task not available' }}
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #addTaskTemplate>
+    <h2 mat-dialog-title>{{'Add task'}}</h2>
+    <mat-dialog-content>
+        <form [formGroup]="taskForm">
+            <div class="d-flex">
+                <mat-form-field class="form-field">
+                    <mat-label>Title: </mat-label>
+                    <input matInput formControlName="title" />
+                    <mat-hint
+                        *ngIf="taskForm.controls['title'].hasError('required') && taskForm.controls['title'].touched"
+                        class="text-danger font-14">
+                        You must include a title.
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="d-flex">
+                <mat-form-field class="form-field">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="d-flex">
+                <mat-form-field class="form-field">
+                    <mat-label>Story Points</mat-label>
+                    <input matInput type="number" placeholder="1 to 10" formControlName="storyPoint">
+                    <mat-hint
+                        *ngIf="taskForm.controls['storyPoint'].hasError('required') && taskForm.controls['storyPoint'].touched"
+                        class="text-danger font-14">
+                        You must include a story point.
+                    </mat-hint>
+                    <mat-hint
+                        *ngIf="taskForm.controls['storyPoint'].hasError('min') || taskForm.controls['storyPoint'].hasError('max')"
+                        class="text-danger font-14">
+                        Story point must be between 1 to 10
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" (click)="saveTask()">
+            {{'Save'}}</button>
+    </mat-dialog-actions>
+</ng-template>

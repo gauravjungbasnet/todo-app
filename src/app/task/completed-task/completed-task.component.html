@@ -1,0 +1,43 @@
+<div 
+  cdkDropList
+  #completedList="cdkDropList"
+  [cdkDropListData]="tasks"
+  [cdkDropListConnectedTo]="connectedParent"
+  cdkDropListSortingDisabled
+  (cdkDropListDropped)="onDrop($event)"
+  class="picker-list">
+  <mat-list>
+    <h3 mat-subheader>{{'Completed'}}</h3>
+    <mat-list-item cdkDrag *ngFor="let task of tasks">
+      <mat-card class="list-card">
+        <mat-card-header>
+          <mat-card-title>
+            <div class="card-header">
+              <div>
+                {{(task.title.length > 50)? (task.title | slice:0:50)+'..':(task.title)}}
+              </div>
+              <div class="story-point-span">
+                {{task.storyPoint}}
+              </div>
+            </div>
+          </mat-card-title>
+
+        </mat-card-header>
+        <mat-card-content>
+          {{((task?.description?.length || 0) > 100)? (task.description | slice:0:100)+'..':(task.description)}}
+        </mat-card-content>
+      </mat-card>
+    </mat-list-item>
+    <mat-list-item *ngIf="!tasks?.length" class="no data found">
+      <ng-container *ngTemplateOutlet="nodataTemplate"></ng-container>
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<ng-template #nodataTemplate>
+  <div class="loading-shade">
+    <div class="no-records-label">
+      <mat-icon>info</mat-icon>&nbsp;&nbsp;{{ 'Completed task not available' }}
+    </div>
+  </div>
+</ng-template>
